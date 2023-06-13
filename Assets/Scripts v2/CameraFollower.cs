@@ -6,7 +6,7 @@ public class CameraFollower : MonoBehaviour
 {
     // Start is called before the first frame update
     [SerializeField] GameObject player;
-    public FollowPath fp;
+    public FollowPath1 fp;
     private float camSpeed;
     void Start()
     {

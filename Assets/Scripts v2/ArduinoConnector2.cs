@@ -10,6 +10,7 @@ public class ArduinoConnector2 : MonoBehaviour
     public string IOPort = "/dev/cu.HC05-SPPDev";
     public int baudeRate = 9600;
     public Vector2 inputValues = Vector2.zero;
+    public int input;
 
     public float WheelRaduis;
     public SerialPort sp;
@@ -19,16 +20,26 @@ public class ArduinoConnector2 : MonoBehaviour
     private float timeBtwPassings;
 
     public int firstMove = 0;
-    private float rotation;
+    public float rotation;
+    public float rotation1;
 
-    private float initialRotation;
+    public float initialRotation;
     public bool turnedRight;
     public bool turnedLeft;
 
+    private Queue<float> readValues = new Queue<float>();
+    public float prevValue;
+    public float pastTime = 0;
+    public float gapTime = 2f;
+
+    public int flag = 0;
+    public BodySourceView2 bv2;
+    private float rightHand;
+    private float leftHand;
     void Start()
     {
         if (useArduino) ActivateSP();
-        initialRotation = 90;
+        
 
     }
     void ActivateSP()
@@ -54,18 +65,73 @@ public class ArduinoConnector2 : MonoBehaviour
 
             }
         }
+
  
 
     }
-
+    public void setTimer()
+    {
+       timeBtwPassings = 100000;
+    }
+    public void setTimerZero()
+    {
+        timeBtwPassings = 0;
+    }
 
     void SetDirection(string message)
     {
         string[] tokens = message.Split(",");
-        rotation = float.Parse(tokens[0]);
+        //rotation = float.Parse(tokens[0]);
 
-        int input = int.Parse(tokens[1]);
+        input = int.Parse(tokens[0]);
         timeBtwPassings += Time.deltaTime;
+        
+        if (input < 12)
+        {
+            input = 1;
+        }
+        else
+        {
+            input = 0;
+        }
+
+        /*
+        leftHand = bv2.targetPosition1.x;
+        rightHand = bv2.targetPosition.x;
+        if (leftHand - rightHand > 15)
+        {
+            turnedRight = true;
+        }
+        else
+        {
+            turnedRight = false;
+        }
+
+        if (rightHand - leftHand > 15)
+        {
+            turnedLeft = true;
+        }
+        else
+        {
+            turnedLeft = false;
+        }*/
+
+        if (bv2.turnRight)
+        {
+            turnedRight = true;
+        }
+        else
+        {
+            turnedRight = false;
+        }
+        if (bv2.turnLeft)
+        {
+            turnedLeft = true;
+        }
+        else
+        {
+            turnedLeft = false;
+        }
 
 
 
@@ -84,20 +150,62 @@ public class ArduinoConnector2 : MonoBehaviour
 
         }
 
-        if (inputValues.y > 130)
-        {
-            inputValues.y = 0;
+        
 
-        }
-
-        if (timeBtwPassings > 4f)
+        if (timeBtwPassings > 2f)
         {
             inputValues.y = 0f;
 
 
         }
+        
+        /*
+        if (pastTime < gapTime)
+        {
+            pastTime += Time.deltaTime;
+            readValues.Enqueue(rotation);
+            return;
+        }
+        else
+        {
+            prevValue = readValues.Dequeue();
+            pastTime = 0;
+        }
 
-        if (rotation > initialRotation + 20)
+        //readValues.Enqueue(rotation);
+        readValues.Clear();
+
+        */
+
+
+
+
+
+
+        /*
+        if (rotation > prevValue + 15 && !turnedLeft)
+        {
+            turnedRight = true;
+             
+        }
+        else
+        {
+            turnedRight = false;
+            
+        }
+        if (rotation < prevValue - 15 && !turnedRight )
+        {
+            turnedLeft = true;
+             
+        }
+        else
+        {
+            turnedLeft = false;
+            
+        }*/
+
+        /*
+        if (rotation > initialRotation + 30)
         {
             turnedRight = true;
              
@@ -106,16 +214,16 @@ public class ArduinoConnector2 : MonoBehaviour
         {
             turnedRight = false;
         }
+        
 
-
-        if (rotation < initialRotation - 20)
+        if (rotation < initialRotation - 30)
         {
             turnedLeft = true;
         }
         else
         {
             turnedLeft = false;
-        }
+        }*/
 
 
 

@@ -8,11 +8,11 @@ public class Subtitles : MonoBehaviour
 {
     // Start is called before the first frame update
     [SerializeField] TextMeshProUGUI m_Object;
-     
+    public FollowPath fp;
     void Start()
     {
 
-        StartCoroutine(TheSequence());
+      //  StartCoroutine(TheSequence());
     }
 
    IEnumerator TheSequence()
@@ -310,7 +310,17 @@ public class Subtitles : MonoBehaviour
             m_Object.text = "She was about to tell us about her super awesome Gift!";
             yield return new WaitForSeconds(3.9f);
             m_Object.text = "Oh, Mirabel didn't get one.";
-         
+        
+        
+    }
+   public void StopSubtitle()
+    {
+
+        StopCoroutine("TheSequence");
+    }
+    public void StartSubtitle()
+    {
+        StartCoroutine("TheSequence");
     }
 
     // Update is called once per frame
