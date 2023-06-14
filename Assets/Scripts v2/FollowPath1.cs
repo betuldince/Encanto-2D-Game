@@ -111,7 +111,7 @@ public class FollowPath1 : MonoBehaviour
                     flag = true;
                     au.Pause();
                     vd.Pause();
-                    Debug.Log("wtf");
+                   
                 }
                 if (Points[pointIndex].transform.position.y - Points[pointIndex - 1].transform.position.y > 0 && pointIndex >= 1)
                 {

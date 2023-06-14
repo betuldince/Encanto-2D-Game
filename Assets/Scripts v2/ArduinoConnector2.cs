@@ -33,7 +33,7 @@ public class ArduinoConnector2 : MonoBehaviour
     public float gapTime = 2f;
 
     public int flag = 0;
-    public BodySourceView2 bv2;
+    public BodySourceView3 bv2;
     private float rightHand;
     private float leftHand;
     void Start()
